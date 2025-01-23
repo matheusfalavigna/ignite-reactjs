@@ -9,6 +9,26 @@
   align-items: flex-start;
 }
 
+.loading {
+  margin-top: 5rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  animation: blink 3s infinite;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+}
+
 @media (max-width: 768px) {
   html {
     font-size: 87.5%;
