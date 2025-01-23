@@ -1,114 +1,105 @@
 import { format, formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale/pt-BR";
 import { ChangeEvent, FormEvent, InvalidEvent, useState } from "react";
+import { commentMock } from "../../mocks/comment.mock";
+import { PostType as PostTypeMock } from "../../mocks/posts.mock";
 import Avatar from "../Avatar/Avatar";
-import Comment from "../Comment/Comment";
+import Comment, { CommentType } from "../Comment/Comment";
 import styles from "./Post.module.css";
 
-interface Author {
-  name: string;
-  role: string;
-  avatarUrl: string;
-}
+export type PostType = PostTypeMock;
 
-interface Content {
-  type: "paragraph" | "link";
-  content: string;
-}
-
-export interface PostType {
-  id: number;
-  author: Author;
-  publishedAt: Date;
-  content: Content[];
-}
-
-interface PostProps {
+export interface PostProps {
   post: PostType;
 }
 
 export default function Post({ post }: PostProps) {
-  const [comments, setComments] = useState(["Post muito bacana, hein!"]);
+  const { author, publishAt, content, comments: postComments } = post;
+
+  const [comments, setComments] = useState<CommentType[]>(postComments);
   const [newCommentText, setNewCommentText] = useState("");
 
   const publishedDateFormatted = format(
-    post.publishedAt,
-    "d 'de' LLLL 'às' HH:mm'h'",
+    new Date(publishAt),
+    "d 'de' LLLL 'de' yyyy 'às' HH:mm'h'",
     {
       locale: ptBR,
     }
   );
 
-  const publishedDateRelativeToNow = formatDistanceToNow(post.publishedAt, {
+  const publishedDateRelativeToNow = formatDistanceToNow(new Date(publishAt), {
     locale: ptBR,
     addSuffix: true,
   });
 
-  function handleCreateNewComment(event: FormEvent) {
+  function handleCreateNewComment(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    setComments([...comments, newCommentText]);
+    const newComment = commentMock(newCommentText);
+
+    setComments((oldComments) => [...oldComments, newComment]);
     setNewCommentText("");
   }
 
   function handleNewCommentChange(event: ChangeEvent<HTMLTextAreaElement>) {
-    event.target.setCustomValidity("");
     setNewCommentText(event.target.value);
+
+    event.target.setCustomValidity("");
   }
 
   function handleNewCommentInvalid(event: InvalidEvent<HTMLTextAreaElement>) {
-    event.target.setCustomValidity("Esse campo é obrigatório");
+    event.target.setCustomValidity("Esse campo é obrigatório.");
   }
 
-  function deleteComment(commentToDelete: string) {
-    const commentsWithoutDeletedOne = comments.filter((comment) => {
-      return comment !== commentToDelete;
-    });
-
-    setComments(commentsWithoutDeletedOne);
+  function deleteComment(commentId: string) {
+    setComments((oldComments) =>
+      oldComments.filter((commentFilter) => commentFilter.id !== commentId)
+    );
   }
 
-  const isNewCommentEmpty = newCommentText.length === 0;
+  const inNewCommentEmpty = newCommentText.length === 0;
 
   return (
     <article className={styles.post}>
       <header>
         <div className={styles.author}>
-          <Avatar src={post.author.avatarUrl} />
+          <Avatar src={author.avatarUrl} alt={author.name} />
 
           <div className={styles.authorInfo}>
-            <strong>{post.author.name}</strong>
-            <span>{post.author.role}</span>
+            <strong>{author.name} </strong>
+            <span>{author.role}</span>
           </div>
         </div>
+
         <time
+          className={styles.date}
           title={publishedDateFormatted}
-          dateTime={post.publishedAt.toISOString()}
+          dateTime={new Date(publishAt).toISOString()}
         >
           {publishedDateRelativeToNow}
         </time>
       </header>
 
       <div className={styles.content}>
-        {post.content.map((line) => {
+        {content.map((line) => {
           if (line.type === "paragraph") {
-            return <p key={line.content}>{line.content}</p>;
-          } else if (line.type === "link") {
-            return (
-              <p key={line.content}>
-                <a href="#">{line.content}</a>
-              </p>
-            );
+            return <p key={line.id}>{line.content}</p>;
           }
+
+          return (
+            <p key={line.id}>
+              <a href={`#${line.content}`}>{line.content}</a>
+            </p>
+          );
         })}
       </div>
 
       <form onSubmit={handleCreateNewComment} className={styles.commentForm}>
-        <strong>Deixe seu feedback</strong>
+        <strong>Deixe seu Feedback</strong>
 
         <textarea
           name="comment"
-          placeholder="Deixe um comentário..."
+          placeholder="Escreva um comentário..."
           value={newCommentText}
           onChange={handleNewCommentChange}
           onInvalid={handleNewCommentInvalid}
@@ -116,7 +107,7 @@ export default function Post({ post }: PostProps) {
         />
 
         <footer>
-          <button type="submit" disabled={isNewCommentEmpty}>
+          <button type="submit" disabled={inNewCommentEmpty}>
             Publicar
           </button>
         </footer>
@@ -125,8 +116,8 @@ export default function Post({ post }: PostProps) {
       <div className={styles.commentList}>
         {comments.map((comment) => (
           <Comment
-            key={comment}
-            content={comment}
+            key={comment.id}
+            comment={comment}
             onDeleteComment={deleteComment}
           />
         ))}
