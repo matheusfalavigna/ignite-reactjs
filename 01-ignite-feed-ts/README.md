@@ -72,7 +72,7 @@ yarn dev
   <tr>
     <td align="center">
       <a href="http://github.com/matheusfalavigna/">
-        <img src="https://avatars.githubusercontent.com/u/60001410?v=4" width="100px;" alt="Henrique Tavares"/>
+        <img src="https://avatars.githubusercontent.com/u/60001410?v=4" width="100px;" alt="Matheus Falavigna"/>
         <br />
         <sub>
           <b>Matheus Falavigna</b>

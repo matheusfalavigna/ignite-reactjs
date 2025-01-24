@@ -35,10 +35,10 @@ https://github.com/matheusfalavigna/ignite-reactjs.git
 cd ignite-reactjs
 ```
 
-> **1.2.** Acesse a pasta do Ignite Feed TS:
+> **1.2.** Acesse a pasta do Ignite Feed JS:
 
 ```bash
-cd 01-ignite-feed-ts
+cd 01-ignite-feed-js
 ```
 
 > **1.3.** Instale as dependências:
@@ -57,7 +57,7 @@ yarn dev
 
 <h2 id="tecnologias">🚀 Tecnologias</h2>
 
-- [TypeScript](https://www.typescriptlang.org/)
+- [JavaScript](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript)
 - [React](https://pt-br.reactjs.org/)
 - [Vite](https://vitejs.dev/)
 - [Phosphor Icons](https://phosphoricons.com/)
@@ -72,7 +72,7 @@ yarn dev
   <tr>
     <td align="center">
       <a href="http://github.com/matheusfalavigna/">
-        <img src="https://avatars.githubusercontent.com/u/60001410?v=4" width="100px;" alt="Henrique Tavares"/>
+        <img src="https://avatars.githubusercontent.com/u/60001410?v=4" width="100px;" alt="Matheus Falavigna"/>
         <br />
         <sub>
           <b>Matheus Falavigna</b>
