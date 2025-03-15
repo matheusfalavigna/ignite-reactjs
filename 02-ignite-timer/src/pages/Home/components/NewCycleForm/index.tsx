@@ -1,11 +1,31 @@
+import { Minus, Plus } from "phosphor-react";
 import { useContext } from "react";
 import { useFormContext } from "react-hook-form";
 import { CyclesContext } from "../../../../contexts/CyclesContext";
-import { FormContainer, MinutesAmountInput, TaskInput } from "./styles";
+import {
+  FormContainer,
+  MinutesAmountInput,
+  MinutesAmountInputWrapper,
+  TaskInput,
+} from "./styles";
 
 export function NewCycleForm() {
   const { activeCycle } = useContext(CyclesContext);
-  const { register } = useFormContext();
+  const { register, setValue, getValues } = useFormContext();
+
+  function handleIncrease() {
+    const currentValue = getValues("minutesAmount") || 0;
+    if (currentValue < 60) {
+      setValue("minutesAmount", currentValue + 1);
+    }
+  }
+
+  function handleDecrease() {
+    const currentValue = getValues("minutesAmount") || 0;
+    if (currentValue > 1) {
+      setValue("minutesAmount", currentValue - 1);
+    }
+  }
 
   return (
     <FormContainer>
@@ -27,16 +47,23 @@ export function NewCycleForm() {
       </datalist>
 
       <label htmlFor="minutesAmount">por</label>
-      <MinutesAmountInput
-        id="minutesAmount"
-        type="number"
-        placeholder="00"
-        step={5}
-        min={1}
-        max={60}
-        disabled={!!activeCycle}
-        {...register("minutesAmount", { valueAsNumber: true })}
-      />
+      <MinutesAmountInputWrapper>
+        <button type="button" onClick={handleDecrease} disabled={!!activeCycle}>
+          <Minus size={16} />
+        </button>
+        <MinutesAmountInput
+          id="minutesAmount"
+          type="number"
+          placeholder="00"
+          min={1}
+          max={60}
+          disabled={!!activeCycle}
+          {...register("minutesAmount", { valueAsNumber: true })}
+        />
+        <button type="button" onClick={handleIncrease} disabled={!!activeCycle}>
+          <Plus size={16} />
+        </button>
+      </MinutesAmountInputWrapper>
 
       <span>minutos.</span>
     </FormContainer>
