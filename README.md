@@ -10,6 +10,8 @@
   - [Chapter I](#chapter-i)
     - [Ignite Feed (JavaScript)](#ignite-feed)
     - [Ignite Feed (TypeScript)](#ignite-feed-em-typescript)
+  - [Chapter II](#chapter-ii)
+    - [Ignite Timer](#ignite-timer)
 - [Autores](#autores)
 - [Licença](#licenca)
 
@@ -30,6 +32,16 @@
 <p align="center">
   <a href="https://github.com/matheusfalavigna/ignite-reactjs/tree/main/01-ignite-feed-ts">
      <img src="./@assets/ignite-feed.png" alt="Ignite Feed" width="700"/>
+   </a>
+</p>
+
+<h2 id="chapter-ii">Chapter II</h2>
+
+<h3 id="ignite-timer">Ignite Timer</h3>
+
+<p align="center">
+  <a href="https://github.com/matheusfalavigna/ignite-reactjs/tree/main/02-ignite-timer">
+     <img src="./@assets/ignite-timer-home.png" alt="Ignite Timer" width="700"/>
    </a>
 </p>
 
